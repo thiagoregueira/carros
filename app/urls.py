@@ -1,0 +1,19 @@
+from django.conf import settings
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls.static import static
+from cars.views import CarsListView, NewCarCreateView, CarDetailView, CarUpdateView, CarDeleteView
+from accounts.views import register_view, login_view, logout_view
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path(route='register/', view=register_view, name='register'),
+    path(route='login/', view=login_view, name='login'),
+    path(route='logout/', view=logout_view, name='logout'),
+    path(route='cars/', view=CarsListView.as_view(), name='cars_list'),
+    path(route='new_car/', view=NewCarCreateView.as_view(), name='new_car'),
+    path(route='cars/<int:pk>/', view=CarDetailView.as_view(), name='car_detail'),
+    path(route='cars/<int:pk>/update/', view=CarUpdateView.as_view(), name='car_update'),
+    path(route='cars/<int:pk>/delete/', view=CarDeleteView.as_view(), name='car_delete'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
