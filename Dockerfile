@@ -26,8 +26,13 @@ COPY . .
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Criar usuário não-root para segurança
-RUN useradd -m appuser && chown -R appuser /app
+# Criar diretório de mídia e ajustar permissões
+RUN mkdir -p /app/media && \
+    chown -R appuser:appuser /app && \
+    chmod -R 755 /app/media
+
+# Criar usuário não-root para segurança (se já não existir, mas o useradd falha se existir, então apenas ajustamos permissões acima)
+RUN useradd -m appuser || true && chown -R appuser:appuser /app
 
 # Mudar para o usuário não-root
 USER appuser
