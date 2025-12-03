@@ -15,6 +15,7 @@ git push origin main
 ## 2. Criar Banco de Dados (Recomendado)
 
 No painel do Coolify:
+
 1. Vá para o seu projeto (ou crie um novo).
 2. Clique em **+ New Resource**.
 3. Selecione **Database** > **PostgreSQL**.
@@ -34,25 +35,26 @@ No painel do Coolify:
 
 Antes de fazer o deploy, vá na aba **Environment Variables** da sua aplicação e adicione:
 
-| Chave | Valor (Exemplo) | Descrição |
-|-------|-----------------|-----------|
-| `SECRET_KEY` | `sua-chave-secreta-longa-e-aleatoria` | Gere uma nova chave segura. |
-| `DEBUG` | `False` | Desativa o modo debug para segurança. |
-| `ALLOWED_HOSTS` | `carros.dominio.qzz.io` | Seu domínio de produção. |
-| `CSRF_TRUSTED_ORIGINS` | `https://carros.dominio.qzz.io` | Necessário para formulários (POST) funcionarem via HTTPS. |
-| `GEMINI_API_KEY` | `AIza...` | Sua chave da API do Google Gemini. |
-| `DATABASE_URL` | `postgresql://...` | A URL interna do banco que você copiou no passo 2. |
+| Chave                    | Valor (Exemplo)                         | Descrição                                                 |
+| ------------------------ | --------------------------------------- | ----------------------------------------------------------- |
+| `SECRET_KEY`           | `sua-chave-secreta-longa-e-aleatoria` | Gere uma nova chave segura.                                 |
+| `DEBUG`                | `False`                               | Desativa o modo debug para segurança.                      |
+| `ALLOWED_HOSTS`        | `carros.******`                       | Seu domínio de produção.                                 |
+| `CSRF_TRUSTED_ORIGINS` | `https://`carros.`******`           | Necessário para formulários (POST) funcionarem via HTTPS. |
+| `GEMINI_API_KEY`       | `*****...`                            | Sua chave da API do Google Gemini.                          |
+| `DATABASE_URL`         | `postgresql://...`                    | A URL interna do banco que você copiou no passo 2.         |
 
 > **Nota**: Se você não configurar `DATABASE_URL`, a aplicação usará SQLite. Isso funciona, mas os dados podem ser perdidos se o volume não for configurado corretamente. O PostgreSQL é muito mais seguro para produção.
 
 ## 5. Configuração de Domínio no Coolify
 
 1. Vá nas configurações da sua aplicação no Coolify.
-2. Em **Domains**, adicione: `https://carros.dominio.qzz.io`.
+2. Em **Domains**, adicione: `https://carros.****`.
+
    - O Coolify deve configurar automaticamente o certificado SSL (HTTPS).
-3. (Opcional) Se você quiser que a URL base redirecione para `/cars`, você precisará configurar isso no seu código (views) ou usar um proxy reverso customizado, mas acessar `https://carros.dominio.qzz.io/cars` funcionará nativamente.
 
 Se sua aplicação faz upload de imagens (pasta `media`), você precisa persistir esse diretório.
+
 1. Vá na aba **Storage** (ou Volumes).
 2. Adicione um volume:
    - **Source Path**: (Deixe o Coolify gerenciar ou defina um caminho no host)
@@ -67,5 +69,6 @@ Se sua aplicação faz upload de imagens (pasta `media`), você precisa persisti
 ## 7. Acessar
 
 Após o deploy finalizar com sucesso:
+
 1. O Coolify deve gerar um domínio automático (ex: `http://random-name.seu-coolify.com`) ou você pode configurar o seu em **Domains**.
 2. Acesse e teste a aplicação!
