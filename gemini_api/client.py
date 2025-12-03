@@ -8,28 +8,35 @@ load_dotenv()
 
 
 def get_car_ai_bio(model, brand, year):
-    gemini_api_key = os.getenv('GEMINI_API_KEY')
-    genai.configure(api_key=gemini_api_key)
+    try:
+        gemini_api_key = os.getenv('GEMINI_API_KEY')
+        if not gemini_api_key:
+            return 'Bio não disponível (Chave API não configurada).'
 
-    prompt = f"""
-    Gere uma biografia curta, criativa e voltada para vendas para um carro.
-    Carro: {brand} {model} {year}.
-    Regras:
-    1. A biografia deve ter no máximo 250 caracteres.
-    2. Fale sobre características específicas do modelo.
-    3. **Comece a resposta DIRETAMENTE com a descrição criativa.** NÃO inclua NUNCA o nome do carro, ano ou qualquer valor monetário (R$) e nem apenas o simbolo R$ como um prefixo.
-    4. **NÃO mostre a contagem de caracteres.**
+        genai.configure(api_key=gemini_api_key)
 
-    Exemplo de como **NÃO** fazer:
-    R$ Kombi 1980: A lenda das estradas! Motor 1.6 refrigerado a ar...
+        prompt = f"""
+        Gere uma biografia curta, criativa e voltada para vendas para um carro.
+        Carro: {brand} {model} {year}.
+        Regras:
+        1. A biografia deve ter no máximo 250 caracteres.
+        2. Fale sobre características específicas do modelo.
+        3. **Comece a resposta DIRETAMENTE com a descrição criativa.** NÃO inclua NUNCA o nome do carro, ano ou qualquer valor monetário (R$) e nem apenas o simbolo R$ como um prefixo.
+        4. **NÃO mostre a contagem de caracteres.**
 
-    Exemplo de como **FAZER**:
-    A lenda das estradas! Motor 1.6 refrigerado a ar, pioneira da aventura. Espaço de sobra para sua tribo e estilo retrô imbatível. Viva o clássico!
-    """
+        Exemplo de como **NÃO** fazer:
+        R$ Kombi 1980: A lenda das estradas! Motor 1.6 refrigerado a ar...
 
-    model_ai = genai.GenerativeModel('models/gemini-flash-lite-latest')
+        Exemplo de como **FAZER**:
+        A lenda das estradas! Motor 1.6 refrigerado a ar, pioneira da aventura. Espaço de sobra para sua tribo e estilo retrô imbatível. Viva o clássico!
+        """
 
-    generation_config = genai.GenerationConfig(max_output_tokens=1000)
-    response = model_ai.generate_content(prompt, generation_config=generation_config)
+        model_ai = genai.GenerativeModel('models/gemini-flash-lite-latest')
 
-    return response.text
+        generation_config = genai.GenerationConfig(max_output_tokens=1000)
+        response = model_ai.generate_content(prompt, generation_config=generation_config)
+
+        return response.text
+    except Exception as e:
+        print(f'Erro ao gerar bio com IA: {e}')
+        return 'Bio não disponível no momento.'
