@@ -16,4 +16,5 @@ urlpatterns = [
     path(route='cars/<int:pk>/', view=CarDetailView.as_view(), name='car_detail'),
     path(route='cars/<int:pk>/update/', view=CarUpdateView.as_view(), name='car_update'),
     path(route='cars/<int:pk>/delete/', view=CarDeleteView.as_view(), name='car_delete'),
+    path(route='', view=CarsListView.as_view(), name='home'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

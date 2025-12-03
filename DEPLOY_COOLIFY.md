@@ -38,13 +38,19 @@ Antes de fazer o deploy, vá na aba **Environment Variables** da sua aplicação
 |-------|-----------------|-----------|
 | `SECRET_KEY` | `sua-chave-secreta-longa-e-aleatoria` | Gere uma nova chave segura. |
 | `DEBUG` | `False` | Desativa o modo debug para segurança. |
-| `ALLOWED_HOSTS` | `*` ou `seu-dominio.com` | Permite acesso externo. |
+| `ALLOWED_HOSTS` | `carros.dominio.qzz.io` | Seu domínio de produção. |
+| `CSRF_TRUSTED_ORIGINS` | `https://carros.dominio.qzz.io` | Necessário para formulários (POST) funcionarem via HTTPS. |
 | `GEMINI_API_KEY` | `AIza...` | Sua chave da API do Google Gemini. |
 | `DATABASE_URL` | `postgresql://...` | A URL interna do banco que você copiou no passo 2. |
 
 > **Nota**: Se você não configurar `DATABASE_URL`, a aplicação usará SQLite. Isso funciona, mas os dados podem ser perdidos se o volume não for configurado corretamente. O PostgreSQL é muito mais seguro para produção.
 
-## 5. Volumes (Se usar SQLite ou Media Files)
+## 5. Configuração de Domínio no Coolify
+
+1. Vá nas configurações da sua aplicação no Coolify.
+2. Em **Domains**, adicione: `https://carros.dominio.qzz.io`.
+   - O Coolify deve configurar automaticamente o certificado SSL (HTTPS).
+3. (Opcional) Se você quiser que a URL base redirecione para `/cars`, você precisará configurar isso no seu código (views) ou usar um proxy reverso customizado, mas acessar `https://carros.dominio.qzz.io/cars` funcionará nativamente.
 
 Se sua aplicação faz upload de imagens (pasta `media`), você precisa persistir esse diretório.
 1. Vá na aba **Storage** (ou Volumes).
