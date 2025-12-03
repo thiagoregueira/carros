@@ -18,3 +18,11 @@ urlpatterns = [
     path(route='cars/<int:pk>/delete/', view=CarDeleteView.as_view(), name='car_delete'),
     path(route='', view=CarsListView.as_view(), name='home'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if not settings.DEBUG:
+    from django.views.static import serve
+    from django.urls import re_path
+
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
